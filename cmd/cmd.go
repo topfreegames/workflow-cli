@@ -22,7 +22,7 @@ type Commander interface {
 	AutoscaleSet(string, string, int, int, int) error
 	AutoscaleUnset(string, string) error
 	Register(string, string, string, string, bool, bool) error
-	Login(string, string, string, bool) error
+	Login(string, string, string, bool, bool) error
 	Logout() error
 	Passwd(string, string, string) error
 	Cancel(string, string, bool) error

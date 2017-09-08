@@ -77,9 +77,28 @@ func (d *DeisCmd) Register(controller string, username string, password string, 
 	d.Printf("Registered %s\n", username)
 
 	if login {
-		return d.Login(controller, username, password, sslVerify)
+		return d.Login(controller, username, password, sslVerify, false)
 	}
 
+	return nil
+}
+
+func (d *DeisCmd) doGoogleAuthLogin(s settings.Settings) error {
+	code, err := auth.GoogleAuthLogin(s.Client)
+	if err != nil {
+		return err
+	}
+	if d.checkAPICompatibility(s.Client, err) != nil {
+		return err
+	}
+	s.Client.Token = code
+	filename, err := s.Save(d.ConfigFile)
+	if err != nil {
+		return nil
+	}
+
+	d.Printf("Logged in!\n")
+	d.Printf("Configuration file written to %s\n", filename)
 	return nil
 }
 
@@ -104,7 +123,7 @@ func (d *DeisCmd) doLogin(s settings.Settings, username, password string) error 
 }
 
 // Login to a Deis controller.
-func (d *DeisCmd) Login(controller string, username string, password string, sslVerify bool) error {
+func (d *DeisCmd) Login(controller string, username string, password string, sslVerify, googleAuth bool) error {
 	c, err := deis.New(sslVerify, controller, "")
 
 	if err != nil {
@@ -116,6 +135,12 @@ func (d *DeisCmd) Login(controller string, username string, password string, ssl
 
 	if err = c.CheckConnection(); d.checkAPICompatibility(c, err) != nil {
 		return err
+	}
+
+	s := settings.Settings{Client: c}
+
+	if googleAuth == true {
+		return d.doGoogleAuthLogin(s)
 	}
 
 	if username == "" {
@@ -133,7 +158,6 @@ func (d *DeisCmd) Login(controller string, username string, password string, ssl
 		}
 	}
 
-	s := settings.Settings{Client: c}
 	return d.doLogin(s, username, password)
 }
 
@@ -196,6 +220,7 @@ func (d *DeisCmd) Passwd(username, password, newPassword string) error {
 	return nil
 }
 
+//TODO fix cancel
 // Cancel deletes a user's account.
 func (d *DeisCmd) Cancel(username, password string, yes bool) error {
 	s, err := settings.Load(d.ConfigFile)
@@ -207,7 +232,7 @@ func (d *DeisCmd) Cancel(username, password string, yes bool) error {
 	if username == "" || password != "" {
 		d.Println("Please log in again in order to cancel this account")
 
-		if err = d.Login(s.Client.ControllerURL.String(), username, password, s.Client.VerifySSL); err != nil {
+		if err = d.Login(s.Client.ControllerURL.String(), username, password, s.Client.VerifySSL, false); err != nil {
 			return err
 		}
 	}

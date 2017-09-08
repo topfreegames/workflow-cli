@@ -109,6 +109,8 @@ Arguments:
     a fully-qualified controller URI, e.g. "http://deis.local3.deisapp.com/".
 
 Options:
+  --google-auth=true
+    use google auth to perform the login.
   --username=<username>
     provide a username for the account.
   --password=<password>
@@ -126,13 +128,18 @@ Options:
 	controller := safeGetValue(args, "<controller>")
 	username := safeGetValue(args, "--username")
 	password := safeGetValue(args, "--password")
+	googleAuth := true
 	sslVerify := true
 
 	if args["--ssl-verify"] != nil && args["--ssl-verify"].(string) == "false" {
 		sslVerify = false
 	}
 
-	return cmdr.Login(controller, username, password, sslVerify)
+	if args["--google-auth"] != nil && args["--google-auth"].(string) == "false" {
+		googleAuth = false
+	}
+
+	return cmdr.Login(controller, username, password, sslVerify, googleAuth)
 }
 
 func authLogout(argv []string, cmdr cmd.Commander) error {
@@ -206,6 +213,8 @@ Cancels and removes the current account.
 Usage: deis auth:cancel [options]
 
 Options:
+	--google-auth
+		cancel an account creates with google auth
   --username=<username>
     provide a username for the account.
   --password=<password>
