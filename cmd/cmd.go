@@ -25,7 +25,7 @@ type Commander interface {
 	Login(string, string, string, bool, bool) error
 	Logout() error
 	Passwd(string, string, string) error
-	Cancel(string, string, bool) error
+	Cancel(string, string, bool, bool) error
 	Whoami(bool) error
 	Regenerate(string, bool) error
 	BuildsList(string, int) error

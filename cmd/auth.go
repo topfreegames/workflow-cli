@@ -84,7 +84,7 @@ func (d *DeisCmd) Register(controller string, username string, password string, 
 }
 
 func (d *DeisCmd) doGoogleAuthLogin(s settings.Settings) error {
-	code, err := auth.GoogleAuthLogin(s.Client)
+	code, email, err := auth.GoogleAuthLogin(s.Client)
 	if err != nil {
 		return err
 	}
@@ -92,6 +92,7 @@ func (d *DeisCmd) doGoogleAuthLogin(s settings.Settings) error {
 		return err
 	}
 	s.Client.Token = code
+	s.Username = strings.Split(email, "@")[0]
 	filename, err := s.Save(d.ConfigFile)
 	if err != nil {
 		return nil
@@ -220,19 +221,25 @@ func (d *DeisCmd) Passwd(username, password, newPassword string) error {
 	return nil
 }
 
-//TODO fix cancel
 // Cancel deletes a user's account.
-func (d *DeisCmd) Cancel(username, password string, yes bool) error {
+func (d *DeisCmd) Cancel(username, password string, yes bool, googleAuth bool) error {
 	s, err := settings.Load(d.ConfigFile)
 
 	if err != nil {
 		return err
 	}
 
-	if username == "" || password != "" {
+	if (username == "" || password != "") && googleAuth == false {
 		d.Println("Please log in again in order to cancel this account")
 
 		if err = d.Login(s.Client.ControllerURL.String(), username, password, s.Client.VerifySSL, false); err != nil {
+			return err
+		}
+	}
+
+	if googleAuth == true {
+		d.Println("Please log in again in order to cancel this account")
+		if err = d.Login(s.Client.ControllerURL.String(), username, password, s.Client.VerifySSL, true); err != nil {
 			return err
 		}
 	}

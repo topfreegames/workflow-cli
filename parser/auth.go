@@ -213,8 +213,8 @@ Cancels and removes the current account.
 Usage: deis auth:cancel [options]
 
 Options:
-	--google-auth
-		cancel an account creates with google auth
+	--google-auth=true
+		cancel an account created with google auth
   --username=<username>
     provide a username for the account.
   --password=<password>
@@ -232,8 +232,13 @@ Options:
 	username := safeGetValue(args, "--username")
 	password := safeGetValue(args, "--password")
 	yes := args["--yes"].(bool)
+	googleAuth := true
 
-	return cmdr.Cancel(username, password, yes)
+	if args["--google-auth"] != nil && args["--google-auth"].(string) == "false" {
+		googleAuth = false
+	}
+
+	return cmdr.Cancel(username, password, yes, googleAuth)
 }
 
 func authRegenerate(argv []string, cmdr cmd.Commander) error {
