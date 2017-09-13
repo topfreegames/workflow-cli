@@ -17,4 +17,5 @@ import:
 - package: github.com/arschles/assert
 - package: github.com/deis/controller-sdk-go
   repo: git@github.com:topfreegames/controller-sdk-go
-  vcs: git
+  version: master
+  vcs:     git

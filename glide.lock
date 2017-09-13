@@ -1,12 +1,12 @@
-hash: df0e54f151fe59020aeb6596445430c9185644ffe1650c9c80f020f04bffb60f
-updated: 2017-01-09T11:54:15.635074917-08:00
+hash: 6f345ff375e3e28c69258f3ea8946d392038e74dfd699e2641faf081aed5800a
+updated: 2017-09-13T15:14:57.064574067-03:00
 imports:
 - name: github.com/arschles/assert
   version: bb58b908265b5931732079df03f2818bf2167ba0
 - name: github.com/deis/controller-sdk-go
+  version: 601862c08baa1dfbd8a53586b57ea4ab3f29c438
   repo: git@github.com:topfreegames/controller-sdk-go
   vcs: git
-  version: 267f45e29b212b0ba7e13952e350550b088fe47c
   subpackages:
   - api
   - apps
@@ -25,24 +25,24 @@ imports:
   - users
   - whitelist
 - name: github.com/deis/pkg
-  version: 28bd07fbcbec5aaaaeda05d362d8ff81f55f4f6c
+  version: ec33e12ba20a86401fdd490488577fddf4b4cbb2
   subpackages:
   - prettyprint
   - time
 - name: github.com/docopt/docopt-go
   version: 784ddc588536785e7299f7272f39101f7faccc3f
 - name: github.com/goware/urlx
-  version: 8bb4a2e4339f55b15164907177e96e9faf885504
+  version: e22571dfbd216d3ca34207d9a1d877f38d8f051c
 - name: github.com/mattn/go-runewidth
-  version: 737072b4e32b7a5018b4a7125da8d12de90e8045
+  version: 97311d9f7767e3d6f422ea06661bc2c7a19e8a5d
 - name: github.com/olekukonko/tablewriter
-  version: bdcc175572fd7abece6c831e643891b9331bc9e7
+  version: 0fd34425a5aee40ff3f260b34e6c3b0d59f58c66
 - name: github.com/PuerkitoBio/purell
-  version: 0bcb03f4b4d0a9428594752bd2a3b9aa0a9d4bd4
+  version: f619812e3caf603a8df60a7ec6f2654b703189ef
 - name: github.com/PuerkitoBio/urlesc
-  version: 5bd2802263f21d8788851d5305584c82a5c75d7e
+  version: de5bf2ad457846296e2031421a34e2568e304e35
 - name: golang.org/x/crypto
-  version: 9a6f0a01987842989747adff311d80750ba25530
+  version: faadfbdc035307d901e69eea569f5dda451a3ee3
   subpackages:
   - ssh/terminal
 - name: golang.org/x/net
@@ -51,15 +51,16 @@ imports:
   - context
   - idna
 - name: golang.org/x/sys
-  version: d75a52659825e75fff6158388dddc6a5b04f9ba5
+  version: 062cd7e4e68206d8bab9b18396626e855c992658
   subpackages:
   - unix
+  - windows
 - name: golang.org/x/text
-  version: 47a200a05c8b3fd1b698571caecbb68beb2611ec
+  version: acd49d43e9b95df46670431bf5c7ae59586daad8
   subpackages:
   - transform
   - unicode/norm
   - width
 - name: gopkg.in/yaml.v2
-  version: a5b47d31c556af34a302ce5d659e6fea44d90de0
+  version: eb3733d160e74a9c7e442f435eb3bea458e1d19f
 testImports: []

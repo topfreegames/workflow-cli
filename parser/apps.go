@@ -174,6 +174,8 @@ Options:
     the uniquely identifiable name for the application.
   -n --lines=<lines>
     the number of lines to display
+  -t --tail
+    tail log.
 `
 
 	args, err := docopt.Parse(usage, argv, true, "", false, true)
@@ -183,6 +185,8 @@ Options:
 	}
 
 	app := safeGetValue(args, "--app")
+
+	tail := args["--tail"].(bool)
 
 	linesStr := safeGetValue(args, "--lines")
 	var lines int
@@ -197,7 +201,8 @@ Options:
 		}
 	}
 
-	return cmdr.AppLogs(app, lines)
+	return cmdr.AppLogs(app, lines, tail)
+
 }
 
 func appRun(argv []string, cmdr cmd.Commander) error {

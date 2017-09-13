@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"bufio"
 	"fmt"
 	"os"
 	"strings"
@@ -170,20 +171,37 @@ func (d *DeisCmd) AppOpen(appID string) error {
 }
 
 // AppLogs returns the logs from an app.
-func (d *DeisCmd) AppLogs(appID string, lines int) error {
+func (d *DeisCmd) AppLogs(appID string, lines int, tail bool) error {
 	s, appID, err := load(d.ConfigFile, appID)
 
 	if err != nil {
 		return err
 	}
 
-	logs, err := apps.Logs(s.Client, appID, lines)
-	if d.checkAPICompatibility(s.Client, err) != nil {
-		return err
-	}
+	if !tail {
+		logs, err := apps.Logs(s.Client, appID, lines)
+		if d.checkAPICompatibility(s.Client, err) != nil {
+			return err
+		}
 
-	for _, log := range strings.Split(strings.TrimRight(logs, `\n`), `\n`) {
-		logging.PrintLog(os.Stdout, log)
+		for _, log := range strings.Split(strings.TrimRight(logs, `\n`), `\n`) {
+			logging.PrintLog(os.Stdout, log)
+		}
+	} else {
+		res, err := apps.LogsTail(s.Client, appID)
+
+		if err != nil {
+			return err
+		}
+
+		reader := bufio.NewReader(res.Body)
+		for {
+			line, err := reader.ReadBytes('\n')
+			if err != nil {
+				return err
+			}
+			logging.PrintLog(os.Stdout, string(line))
+		}
 	}
 
 	return nil

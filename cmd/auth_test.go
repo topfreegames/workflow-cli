@@ -79,7 +79,7 @@ func TestLogin(t *testing.T) {
 	})
 
 	username := "test-user"
-	err = cmdr.Login(server.Server.URL, username, "test-pass", true)
+	err = cmdr.Login(server.Server.URL, username, "test-pass", true, false)
 	assert.NoErr(t, err)
 	expected := fmt.Sprintf("Logged in as %s\nConfiguration file written to %s\n", username, cf)
 	assert.Equal(t, b.String(), expected, "output")
@@ -153,7 +153,7 @@ func TestCancel(t *testing.T) {
 	})
 
 	username := "test-user"
-	err = cmdr.Cancel(username, "", true)
+	err = cmdr.Cancel(username, "", true, false)
 	assert.NoErr(t, err)
 	assert.Equal(t, b.String(), "Account cancelled\n", "output")
 }
@@ -225,8 +225,8 @@ func TestWhoamiAll(t *testing.T) {
 	expected := fmt.Sprintf(`ID: 0
 Username: test
 Email: test@example.com
-First Name: 
-Last Name: 
+First Name:
+Last Name:
 Last Login: 2016-09-12T22:15:26Z
 Is Superuser: true
 Is Staff: true
