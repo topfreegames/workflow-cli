@@ -200,7 +200,7 @@ func (d *DeisCmd) AppLogs(appID string, lines int, tail bool) error {
 			if err != nil {
 				return err
 			}
-			logging.PrintLog(os.Stdout, string(line))
+			logging.PrintLog(os.Stdout, strings.TrimRight(string(line), "\n"))
 		}
 	}
 
