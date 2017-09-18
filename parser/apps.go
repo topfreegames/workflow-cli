@@ -175,7 +175,7 @@ Options:
   -n --lines=<lines>
     the number of lines to display
   -p --process=<process>
-    the process type to show
+    the process type to show(Works only with follow)
   -f --follow
     tail log.
 `
