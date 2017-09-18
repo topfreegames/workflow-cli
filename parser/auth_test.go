@@ -16,7 +16,7 @@ func (d FakeDeisCmd) Register(string, string, string, string, bool, bool) error 
 	return errors.New("auth:register")
 }
 
-func (d FakeDeisCmd) Login(string, string, string, bool) error {
+func (d FakeDeisCmd) Login(string, string, string, bool, bool) error {
 	return errors.New("auth:login")
 }
 
@@ -28,7 +28,7 @@ func (d FakeDeisCmd) Passwd(string, string, string) error {
 	return errors.New("auth:passwd")
 }
 
-func (d FakeDeisCmd) Cancel(string, string, bool) error {
+func (d FakeDeisCmd) Cancel(string, string, bool, bool) error {
 	return errors.New("auth:cancel")
 }
 

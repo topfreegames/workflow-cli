@@ -28,7 +28,7 @@ func (d FakeDeisCmd) AppOpen(string) error {
 	return errors.New("apps:open")
 }
 
-func (d FakeDeisCmd) AppLogs(string, int) error {
+func (d FakeDeisCmd) AppLogs(string, int, string, bool) error {
 	return errors.New("apps:logs")
 }
 

@@ -171,7 +171,7 @@ func (d *DeisCmd) AppOpen(appID string) error {
 }
 
 // AppLogs returns the logs from an app.
-func (d *DeisCmd) AppLogs(appID string, lines int, tail bool) error {
+func (d *DeisCmd) AppLogs(appID string, lines int, process string, tail bool) error {
 	s, appID, err := load(d.ConfigFile, appID)
 
 	if err != nil {
@@ -188,7 +188,7 @@ func (d *DeisCmd) AppLogs(appID string, lines int, tail bool) error {
 			logging.PrintLog(os.Stdout, log)
 		}
 	} else {
-		res, err := apps.LogsTail(s.Client, appID)
+		res, err := apps.LogsTail(s.Client, appID, process)
 
 		if err != nil {
 			return err

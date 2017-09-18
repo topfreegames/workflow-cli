@@ -174,7 +174,9 @@ Options:
     the uniquely identifiable name for the application.
   -n --lines=<lines>
     the number of lines to display
-  -t --tail
+  -p --process=<process>
+    the process type to show
+  -f --follow
     tail log.
 `
 
@@ -186,7 +188,9 @@ Options:
 
 	app := safeGetValue(args, "--app")
 
-	tail := args["--tail"].(bool)
+	tail := args["--follow"].(bool)
+
+	process := safeGetValue(args, "--process")
 
 	linesStr := safeGetValue(args, "--lines")
 	var lines int
@@ -201,7 +205,7 @@ Options:
 		}
 	}
 
-	return cmdr.AppLogs(app, lines, tail)
+	return cmdr.AppLogs(app, lines, process, tail)
 
 }
 
