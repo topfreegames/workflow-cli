@@ -179,7 +179,7 @@ func (d *DeisCmd) AppLogs(appID string, lines int, process string, tail bool) er
 	}
 
 	if !tail {
-		logs, err := apps.Logs(s.Client, appID, lines)
+		logs, err := apps.Logs(s.Client, appID, lines, process)
 		if d.checkAPICompatibility(s.Client, err) != nil {
 			return err
 		}

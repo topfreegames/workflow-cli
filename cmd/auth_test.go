@@ -225,8 +225,8 @@ func TestWhoamiAll(t *testing.T) {
 	expected := fmt.Sprintf(`ID: 0
 Username: test
 Email: test@example.com
-First Name:
-Last Name:
+First Name: 
+Last Name: 
 Last Login: 2016-09-12T22:15:26Z
 Is Superuser: true
 Is Staff: true
