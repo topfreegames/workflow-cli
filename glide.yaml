@@ -16,6 +16,8 @@ import:
 - package: github.com/olekukonko/tablewriter
 - package: github.com/arschles/assert
 - package: github.com/deis/controller-sdk-go
-  repo: https://github.com/topfreegames/controller-sdk-go.git
-  version: master
-  vcs:     git
+  version: feature/sidecars
+  repo: https://github.com/topfreegames/controller-sdk-go
+  vcs: git
+- package: github.com/ghodss/yaml
+  version: v1.0.0

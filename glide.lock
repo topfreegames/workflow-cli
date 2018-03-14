@@ -1,11 +1,11 @@
-hash: bed93a8757782fd3c119958315e75eab801b6f689cc613cae1aa8b9e0222bed7
-updated: 2018-01-29T18:52:13.584659819-02:00
+hash: a5a560c32addf1e7f349d38a23adae32f387952d15df278d96eb581c3138a59d
+updated: 2018-03-15T13:57:12.730643705-03:00
 imports:
 - name: github.com/arschles/assert
   version: bb58b908265b5931732079df03f2818bf2167ba0
 - name: github.com/deis/controller-sdk-go
-  version: 939092f922ac262a15dc8906ea29072b5b18271d
-  repo: https://github.com/topfreegames/controller-sdk-go.git
+  version: f683073fdc163104648abfe7cd48370bf2539364
+  repo: https://github.com/topfreegames/controller-sdk-go
   vcs: git
   subpackages:
   - api
@@ -31,6 +31,8 @@ imports:
   - time
 - name: github.com/docopt/docopt-go
   version: ee0de3bc6815ee19d4a46c7eb90f829db0e014b1
+- name: github.com/ghodss/yaml
+  version: 0ca9ea5df5451ffdf184b4428c902747c2c11cd7
 - name: github.com/goware/urlx
   version: 06d8eeb3ce171b5617a3f8ef24451df26ca971ef
 - name: github.com/mattn/go-runewidth
