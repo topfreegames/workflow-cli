@@ -4,9 +4,8 @@ import (
 	"io/ioutil"
 	"os"
 
-	yaml "gopkg.in/yaml.v2"
-
 	"github.com/deis/controller-sdk-go/builds"
+	"github.com/ghodss/yaml"
 )
 
 // BuildsList lists an app's builds.
@@ -35,7 +34,7 @@ func (d *DeisCmd) BuildsList(appID string, results int) error {
 }
 
 // BuildsCreate creates a build for an app.
-func (d *DeisCmd) BuildsCreate(appID, image, procfile string) error {
+func (d *DeisCmd) BuildsCreate(appID, image, procfile, sidecarfile string) error {
 	s, appID, err := load(d.ConfigFile, appID)
 
 	if err != nil {
@@ -59,9 +58,26 @@ func (d *DeisCmd) BuildsCreate(appID, image, procfile string) error {
 		}
 	}
 
+	sidecarfileMap := make(map[string]interface{})
+
+	if sidecarfile != "" {
+		if sidecarfileMap, err = parseSidecarfile([]byte(sidecarfile)); err != nil {
+			return err
+		}
+	} else if _, err := os.Stat("Sidecarfile"); err == nil {
+		contents, err := ioutil.ReadFile("Sidecarfile")
+		if err != nil {
+			return err
+		}
+
+		if sidecarfileMap, err = parseSidecarfile(contents); err != nil {
+			return err
+		}
+	}
+
 	d.Print("Creating build... ")
 	quit := progress(d.WOut)
-	_, err = builds.New(s.Client, appID, image, procfileMap)
+	_, err = builds.New(s.Client, appID, image, procfileMap, sidecarfileMap)
 	quit <- true
 	<-quit
 	if d.checkAPICompatibility(s.Client, err) != nil {
@@ -76,4 +92,9 @@ func (d *DeisCmd) BuildsCreate(appID, image, procfile string) error {
 func parseProcfile(procfile []byte) (map[string]string, error) {
 	procfileMap := make(map[string]string)
 	return procfileMap, yaml.Unmarshal(procfile, &procfileMap)
+}
+
+func parseSidecarfile(sidecarfile []byte) (map[string]interface{}, error) {
+	sidecarfileMap := make(map[string]interface{})
+	return sidecarfileMap, yaml.Unmarshal(sidecarfile, &sidecarfileMap)
 }

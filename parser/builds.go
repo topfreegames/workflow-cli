@@ -68,7 +68,8 @@ func buildsCreate(argv []string, cmdr cmd.Commander) error {
 	usage := `
 Creates a new build of an application. Imports an <image> and deploys it to Deis
 as a new release. If a Procfile is present in the current directory, it will be used
-as the default process types for this application.
+as the default process types for this application. If a Sidecarfile is present in the
+current directory, it will be used to deploy sidecars to the defined process types.
 
 Usage: deis builds:create <image> [options]
 
@@ -83,6 +84,8 @@ Options:
     The uniquely identifiable name for the application.
   -p --procfile=<procfile>
     A YAML string used to supply a Procfile to the application.
+  -s --sidecarfile=<sidecarfile>
+    A YAML string used to supply a Sidecarfile to the application.
 `
 
 	args, err := docopt.Parse(usage, argv, true, "", false, true)
@@ -94,6 +97,7 @@ Options:
 	app := safeGetValue(args, "--app")
 	image := safeGetValue(args, "<image>")
 	procfile := safeGetValue(args, "--procfile")
+	sidecarfile := safeGetValue(args, "--sidecarfile")
 
-	return cmdr.BuildsCreate(app, image, procfile)
+	return cmdr.BuildsCreate(app, image, procfile, sidecarfile)
 }

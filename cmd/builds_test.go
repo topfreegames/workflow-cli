@@ -29,6 +29,26 @@ foo
 	assert.ExistsErr(t, err, "yaml")
 }
 
+func TestParseSidecarfile(t *testing.T) {
+	t.Parallel()
+	sidecarMap, err := parseSidecarfile([]byte(`web:
+- image: busybox:latest
+  name: busybox`))
+	assert.NoErr(t, err)
+	expected := map[string]interface{}{
+		"web": []interface{}{
+			map[string]interface{}{
+				"image": "busybox:latest",
+				"name":  "busybox",
+			},
+		},
+	}
+	assert.Equal(t, sidecarMap, expected, "map")
+
+	_, err = parseProcfile([]byte("web= invalid"))
+	assert.ExistsErr(t, err, "yaml")
+}
+
 func TestBuildsList(t *testing.T) {
 	t.Parallel()
 	cf, server, err := testutil.NewTestServerAndClient()
@@ -53,6 +73,7 @@ func TestBuildsList(t *testing.T) {
 					"image": "",
 					"owner": "",
 					"procfile": {},
+					"sidecarfile": {},
 					"sha": "",
 					"updated": "",
 					"uuid": "de1bf5b5-4a72-4f94-a10c-d2a3741cdf75"
@@ -64,6 +85,7 @@ func TestBuildsList(t *testing.T) {
 					"image": "",
 					"owner": "",
 					"procfile": {},
+					"sidecarfile": {},
 					"sha": "",
 					"updated": "",
 					"uuid": "c4aed81c-d1ca-4ff1-ab89-d2151264e1a3"
@@ -104,6 +126,7 @@ func TestBuildsListLimit(t *testing.T) {
                     "image": "",
                     "owner": "",
                     "procfile": {},
+					"sidecarfile": {},
                     "sha": "",
                     "updated": "",
                     "uuid": "de1bf5b5-4a72-4f94-a10c-d2a3741cdf75"
@@ -144,7 +167,7 @@ func TestBuildsCreate(t *testing.T) {
 		fmt.Fprintf(w, "{}")
 	})
 
-	err = cmdr.BuildsCreate("enterprise", "ncc/1701:A", "")
+	err = cmdr.BuildsCreate("enterprise", "ncc/1701:A", "", "")
 	assert.NoErr(t, err)
 	assert.Equal(t, testutil.StripProgress(b.String()), "Creating build... done\n", "output")
 
@@ -156,6 +179,14 @@ func TestBuildsCreate(t *testing.T) {
 				"web":  "./drive",
 				"warp": "./warp 8",
 			},
+			Sidecarfile: map[string]interface{}{
+				"web": []map[string]interface{}{
+					{
+						"image": "busybox:latest",
+						"name":  "busybox",
+					},
+				},
+			},
 		}, r)
 
 		w.WriteHeader(http.StatusCreated)
@@ -165,7 +196,9 @@ func TestBuildsCreate(t *testing.T) {
 
 	err = cmdr.BuildsCreate("bradbury", "nx/72307:latest", `web: ./drive
 warp: ./warp 8
-`)
+`, `web:
+- name: busybox
+  image: busybox:latest`)
 	assert.NoErr(t, err)
 	assert.Equal(t, testutil.StripProgress(b.String()), "Creating build... done\n", "output")
 
@@ -176,6 +209,14 @@ warp: ./warp 8
 			Procfile: map[string]string{
 				"web":  "./drive",
 				"warp": "./warp 8",
+			},
+			Sidecarfile: map[string]interface{}{
+				"web": []map[string]interface{}{
+					{
+						"image": "busybox:latest",
+						"name":  "busybox",
+					},
+				},
 			},
 		}, r)
 
@@ -189,7 +230,12 @@ warp: ./warp 8
 `), os.ModePerm)
 	assert.NoErr(t, err)
 
-	err = cmdr.BuildsCreate("franklin", "nx/326:latest", "")
+	err = ioutil.WriteFile("Sidecarfile", []byte(`web:
+- name: busybox
+  image: busybox:latest`), os.ModePerm)
+	assert.NoErr(t, err)
+
+	err = cmdr.BuildsCreate("franklin", "nx/326:latest", "", "")
 	assert.NoErr(t, err)
 	assert.Equal(t, testutil.StripProgress(b.String()), "Creating build... done\n", "output")
 
