@@ -1,4 +1,4 @@
 package version
 
 // Version identifies the Deis product revision.
-var Version = "v2.18.3"
+var Version = "v2.19.0"
