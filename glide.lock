@@ -1,10 +1,10 @@
-hash: a5a560c32addf1e7f349d38a23adae32f387952d15df278d96eb581c3138a59d
-updated: 2018-03-15T13:57:12.730643705-03:00
+hash: a3644f031263a6b5f947796995b7a2d6fd6a114a9145421d44f65d16301ef7f3
+updated: 2018-03-15T15:00:27.356412492-03:00
 imports:
 - name: github.com/arschles/assert
-  version: bb58b908265b5931732079df03f2818bf2167ba0
+  version: 6882f85ccdc7c1822b146d1a6b0c2c48f91b5140
 - name: github.com/deis/controller-sdk-go
-  version: f683073fdc163104648abfe7cd48370bf2539364
+  version: 4bfe18b5015b2c239fa58850b8de5e8ee60bbbb5
   repo: https://github.com/topfreegames/controller-sdk-go
   vcs: git
   subpackages:
@@ -25,7 +25,7 @@ imports:
   - users
   - whitelist
 - name: github.com/deis/pkg
-  version: ec33e12ba20a86401fdd490488577fddf4b4cbb2
+  version: 00e55bded444eea7fadff398f93152e962a0c338
   subpackages:
   - prettyprint
   - time
@@ -44,7 +44,7 @@ imports:
 - name: github.com/PuerkitoBio/urlesc
   version: de5bf2ad457846296e2031421a34e2568e304e35
 - name: golang.org/x/crypto
-  version: 88d0005bf4c3ec17306ecaca4281a8d8efd73e91
+  version: 453249f01cfeb54c3d549ddb75ff152ca243f9d8
   subpackages:
   - ssh/terminal
 - name: golang.org/x/net
@@ -52,6 +52,10 @@ imports:
   subpackages:
   - context
   - idna
+- name: golang.org/x/sys
+  version: 8d1157a435470616f975ff9bb013bea8d0962067
+  subpackages:
+  - unix
 - name: golang.org/x/text
   version: d69c40b4be55797923cec7457fac7a244d91a9b6
   subpackages:
@@ -59,5 +63,5 @@ imports:
   - unicode/norm
   - width
 - name: gopkg.in/yaml.v2
-  version: e4d366fc3c7938e2958e662b4258c7a89e1f0e3e
+  version: eca94c41d994ae2215d455ce578ae6e2dc6ee516
 testImports: []
