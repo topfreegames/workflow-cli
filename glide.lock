@@ -4,7 +4,7 @@ imports:
 - name: github.com/arschles/assert
   version: 6882f85ccdc7c1822b146d1a6b0c2c48f91b5140
 - name: github.com/deis/controller-sdk-go
-  version: 4bfe18b5015b2c239fa58850b8de5e8ee60bbbb5
+  version: 94473155613b26dc3380c808c4067bd9b19f5b9b
   repo: https://github.com/topfreegames/controller-sdk-go
   vcs: git
   subpackages:
