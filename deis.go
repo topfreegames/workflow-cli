@@ -47,6 +47,7 @@ Auth commands, use 'deis help auth' to learn more::
 
 Subcommands, use 'deis help [subcommand]' to learn more::
 
+  annotation    manage annotations that are used to label the pods
   apps          manage applications used to provide services
   autoscale     manage autoscale for applications
   builds        manage builds created using 'git push'
@@ -106,6 +107,8 @@ Use 'git push deis master' to deploy to an application.
 	// Dispatch the command, passing the argv through so subcommands can
 	// re-parse it according to their usage strings.
 	switch command {
+	case "annotation":
+		err = parser.Annotation(argv, &cmdr)
 	case "apps":
 		err = parser.Apps(argv, &cmdr)
 	case "auth":
