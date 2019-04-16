@@ -8,7 +8,7 @@ import (
 // Annnotations routes annotation commands to their specific function.
 func Annotation(argv []string, cmdr cmd.Commander) error {
 	usage := `
-Valid commands for annotations:
+Valid commands for annotation:
 
 annotation:list        list annotations for an app
 annotation:set         set annotations for an app

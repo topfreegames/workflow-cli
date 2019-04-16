@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/deis/pkg/prettyprint"
 	"regexp"
+	"sort"
 
 	"github.com/deis/controller-sdk-go/api"
 	"github.com/deis/controller-sdk-go/config"
@@ -24,23 +25,14 @@ func (d *DeisCmd) AnnotationList(appID string, format string) error {
 	}
 	var configOutput = new(bytes.Buffer)
 
-	/*** type casting to map[string]interface{}
-	 * the sortKeys function takes a map[string]interface{}, but config.Annotations
-	 * is of type map[string]Annotations. Because of that type difference, the function
-	 * cannot take `config.Annotation` directly. So we have two main options, either
-	 * replicate the sortKeys function changing only its type signature, or copy
-	 * the map into another one with the correct type. This approach was selected
-	 * because this map will likely have 2 or 3 elements, so copying this way
-	 * should not impact negatively on performance and will keep the code cleaner.
-	 */
-	interfacedStuff := make(map[string]interface{})
-	for k, v := range config.Annotations {
-		interfacedStuff[k] = v
+	appTypes := make([]string, 0, len(config.Annotations))
+	for k := range config.Annotations {
+		appTypes = append(appTypes, k)
 	}
 
-	sortedTypes := sortKeys(interfacedStuff)
+	sort.Strings(appTypes)
 
-	for _, appType := range sortedTypes {
+	for _, appType := range appTypes {
 		annotations := config.Annotations[appType]
 		keys := sortKeys(annotations)
 		switch format {
