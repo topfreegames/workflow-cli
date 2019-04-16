@@ -1,11 +1,11 @@
 package cmd
 
 import (
-	"bytes"
 	"fmt"
 	"github.com/deis/pkg/prettyprint"
 	"regexp"
 	"sort"
+	"strings"
 
 	"github.com/deis/controller-sdk-go/api"
 	"github.com/deis/controller-sdk-go/config"
@@ -14,7 +14,6 @@ import (
 // AnnotationList lists an app annotations
 func (d *DeisCmd) AnnotationList(appID string, format string) error {
 	settings, appID, err := load(d.ConfigFile, appID)
-
 	if err != nil {
 		return err
 	}
@@ -23,7 +22,7 @@ func (d *DeisCmd) AnnotationList(appID string, format string) error {
 	if d.checkAPICompatibility(settings.Client, err) != nil {
 		return err
 	}
-	var configOutput = new(bytes.Buffer)
+	var configOutput strings.Builder
 
 	appTypes := make([]string, 0, len(config.Annotations))
 	for k := range config.Annotations {
@@ -37,31 +36,31 @@ func (d *DeisCmd) AnnotationList(appID string, format string) error {
 		keys := sortKeys(annotations)
 		switch format {
 		case "oneline":
-			fmt.Fprintf(configOutput, "%s:", appType)
+            configOutput.WriteString(fmt.Sprintf("%s:", appType))
 			for _, key := range keys {
 				value := annotations[key]
-				fmt.Fprintf(configOutput, " %s=%s", key, value)
+				configOutput.WriteString(fmt.Sprintf(" %s=%s", key, value))
 			}
-			fmt.Fprintf(configOutput, "\n")
+			configOutput.WriteString(fmt.Sprintf("\n"))
 		case "diff":
-			fmt.Fprintf(configOutput, "%s:\n", appType)
+			configOutput.WriteString(fmt.Sprintf("%s:\n", appType))
 			for _, key := range keys {
 				value := annotations[key]
-				fmt.Fprintf(configOutput, "    %s=%s\n", key, value)
+				configOutput.WriteString(fmt.Sprintf("    %s=%s\n", key, value))
 			}
 		default:
-			fmt.Fprintf(configOutput, "=== %s Annotations\n", appType)
+			configOutput.WriteString(fmt.Sprintf("=== %s Annotations\n", appType))
 			prettyPrintAnnotations := make(map[string]string)
             for _, key := range keys {
 				value := annotations[key]
 				prettyPrintAnnotations[key] = value.(string)
 			}
-			fmt.Fprint(configOutput, prettyprint.PrettyTabs(prettyPrintAnnotations, 6))
+			configOutput.WriteString(fmt.Sprintf(prettyprint.PrettyTabs(prettyPrintAnnotations, 6)))
 		}
 	}
 
-	d.Print(configOutput)
-	return nil
+	_, err = d.Print(configOutput.String())
+	return err
 }
 
 // AnnotationSet sets an app's annotations.
