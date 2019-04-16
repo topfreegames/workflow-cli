@@ -136,9 +136,9 @@ func (d *DeisCmd) AnnotationUnset(appID string, appType string, annotations []st
 func parseAnnotations(annotations []string) (api.Annotation, error) {
 	annotationsMap := make(api.Annotation)
 
-	regex := regexp.MustCompile(`^([A-Za-z_]+.*)=([\s\S]*)$`)
+	regex := regexp.MustCompile(`^([A-Za-z_]+.*)=([\s\S]+)$`)
 	for _, annotation := range annotations {
-		if annotation[0] == '#' {
+		if len(annotation) > 0 && annotation[0] == '#' {
 			continue
 		}
 		if regex.MatchString(annotation) {
