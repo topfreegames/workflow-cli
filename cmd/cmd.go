@@ -10,6 +10,9 @@ import (
 
 // Commander is interface definition for running commands
 type Commander interface {
+	AnnotationList(string, string) error
+	AnnotationSet(string, string, []string) error
+	AnnotationUnset(string, string, []string) error
 	AppCreate(string, string, string, bool) error
 	AppsList(int) error
 	AppInfo(string) error

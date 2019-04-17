@@ -84,13 +84,18 @@ func (d *DeisCmd) ConfigSet(appID string, configVars []string) error {
 		configMap["SSH_KEY"] = base64.StdEncoding.EncodeToString([]byte(sshKey))
 	}
 
-	// NOTE(bacongobbler): check if the user is using the old way to set healthchecks. If so,
-	// send them a deprecation notice.
+	// NOTE(bacongobbler): check if the user is using the old way to set healthchecks or
+	// annotations. If so, send them a deprecation notice.
 	for key := range configMap {
 		if strings.Contains(key, "HEALTHCHECK_") {
 			d.Println(`Hey there! We've noticed that you're using 'deis config:set HEALTHCHECK_URL'
 to set up healthchecks. This functionality has been deprecated. In the future, please use
 'deis healthchecks' to set up application health checks. Thanks!`)
+		}
+		if strings.Contains(key, "KUBERNETES_PODS_ANNOTATIONS") {
+			d.Println(`Hey there! We've noticed that you're using 'deis config:set KUBERNETES_PODS_ANNOTATIONS'
+to set up annotations. This functionality has been deprecated. Please prefer setting annotations using the
+'deis annotations' command. Thanks!`)
 		}
 	}
 
