@@ -8,6 +8,12 @@ class DeisTfg < Formula
   depends_on "glide" => :build
   depends_on "go" => :build
 
+  bottle do
+    root_url "https://github.com/topfreegames/workflow-cli/releases/download/v2.20.0"
+    cellar :any_skip_relocation
+    sha256 "e1f8b3d5814770ee493d5cbec2f60aabc80710ebab1200857a1f6be99294277b" => :mojave
+  end
+
   def install
     ENV["GOPATH"] = buildpath
     ENV["GLIDE_HOME"] = HOMEBREW_CACHE/"glide_home/#{name}"
