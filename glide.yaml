@@ -16,7 +16,7 @@ import:
 - package: github.com/olekukonko/tablewriter
 - package: github.com/arschles/assert
 - package: github.com/deis/controller-sdk-go
-  version: 94473155613b26dc3380c808c4067bd9b19f5b9b
+  version: ff68753d9f136af25ac3022b33ec4ae40749c454
   repo: https://github.com/topfreegames/controller-sdk-go
   vcs: git
 - package: github.com/ghodss/yaml
