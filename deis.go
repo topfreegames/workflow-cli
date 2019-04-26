@@ -67,6 +67,7 @@ Subcommands, use 'deis help [subcommand]' to learn more::
   maintenance   manage maintenance mode of an application
   tags          manage tags for application containers
   tls           manage TLS settings for applications
+  toleration    manage application's pod toleration rules
   users         manage users
   version       display client version
   whitelist     manage whitelisted addresses of an application
@@ -154,6 +155,8 @@ Use 'git push deis master' to deploy to an application.
 		err = parser.Tags(argv, &cmdr)
 	case "tls":
 		err = parser.TLS(argv, &cmdr)
+	case "toleration":
+		err = parser.Toleration(argv, &cmdr)
 	case "users":
 		err = parser.Users(argv, &cmdr)
 	case "version":
