@@ -16,7 +16,6 @@ Valid commands for toleration:
 toleration:list        list toleration for an app
 toleration:set         set toleration for an app
 toleration:unset       unset toleration for an app
-toleration:clear       clear all toleration for an app
 
 Use 'deis help [command]' to learn more.
 `
