@@ -103,7 +103,7 @@ func TestTolerationSet(t *testing.T) {
 			testutil.AssertBody(t, api.Config{
 				Tolerations: map[string]map[string]*v1.Toleration{
 					"cmd": {
-						"annotation-test": &mockToleration,
+						"toleration-test": &mockToleration,
 					},
 				},
 			}, r)
@@ -114,12 +114,12 @@ func TestTolerationSet(t *testing.T) {
 	"app": "foo",
     "tolerations": {
         "cmd": {
-            "annotation-test": {
+            "toleration-test": {
 				"key": "somekey",
 				"value": "somevalue",
 				"operator": "Equal",
 				"tolerationSeconds": 300,
-				"effect": "NoSchedule",
+				"effect": "NoSchedule"
 			}
         }
     }
@@ -132,7 +132,7 @@ func TestTolerationSet(t *testing.T) {
 	err = cmdr.TolerationSet("foo", "cmd", "toleration-test", mockToleration)
 	assert.NoErr(t, err)
 
-	assert.Equal(t, testutil.StripProgress(b.String()), `Creating Annotations... done
+	assert.Equal(t, testutil.StripProgress(b.String()), `Creating Tolerations... done
 
 === cmd Tolerations
 ---- toleration-test
@@ -169,12 +169,12 @@ func TestTolerationUnset(t *testing.T) {
 	"app": "foo",
     "tolerations": {
         "cmd": {
-            "annotation-test": {
+            "toleration-test": {
 				"key": "somekey",
 				"value": "somevalue",
 				"operator": "Equal",
 				"tolerationSeconds": 300,
-				"effect": "NoSchedule",
+				"effect": "NoSchedule"
 			}
         }
     }
@@ -187,7 +187,7 @@ func TestTolerationUnset(t *testing.T) {
 	err = cmdr.TolerationUnset("foo", "cmd", []string{"toleration"})
 	assert.NoErr(t, err)
 
-	assert.Equal(t, testutil.StripProgress(b.String()), `Removing Annotations... done
+	assert.Equal(t, testutil.StripProgress(b.String()), `Removing Tolerations... done
 
 === cmd Tolerations
 ---- toleration-test

@@ -1,4 +1,4 @@
-FROM quay.io/deis/go-dev:v1.8.1
+FROM quay.io/deis/go-dev:v1.12.2
 # This Dockerfile is used to bundle the source and all dependencies into an image for testing.
 
 RUN echo "deb http://packages.cloud.google.com/apt cloud-sdk-jessie main" \
@@ -15,13 +15,12 @@ ENV CGO_ENABLED=0
 ADD https://codecov.io/bash /usr/local/bin/codecov
 RUN chmod +x /usr/local/bin/codecov
 
-COPY glide.yaml /go/src/github.com/deis/workflow-cli/
-COPY glide.lock /go/src/github.com/deis/workflow-cli/
+COPY . /go/src/github.com/deis/workflow-cli
 
 WORKDIR /go/src/github.com/deis/workflow-cli
 
-RUN glide install --strip-vendor
+RUN dep ensure
 
 COPY ./_scripts /usr/local/bin
 
-COPY . /go/src/github.com/deis/workflow-cli
+RUN go build
