@@ -15,11 +15,14 @@ ENV CGO_ENABLED=0
 ADD https://codecov.io/bash /usr/local/bin/codecov
 RUN chmod +x /usr/local/bin/codecov
 
-COPY . /go/src/github.com/deis/workflow-cli
+COPY Gopkg.lock /go/src/github.com/deis/workflow-cli/Gopkg.lock
+COPY Gopkg.toml /go/src/github.com/deis/workflow-cli/Gopkg.toml
 
 WORKDIR /go/src/github.com/deis/workflow-cli
 
-RUN dep ensure
+RUN dep ensure --vendor-only
+
+COPY . /go/src/github.com/deis/workflow-cli
 
 COPY ./_scripts /usr/local/bin
 
