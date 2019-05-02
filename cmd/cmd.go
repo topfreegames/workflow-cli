@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"io"
+	"k8s.io/api/core/v1"
 	"time"
 
 	"github.com/deis/controller-sdk-go/api"
@@ -86,6 +87,9 @@ type Commander interface {
 	TLSInfo(string) error
 	TLSEnable(string) error
 	TLSDisable(string) error
+	TolerationList(string, string) error
+	TolerationSet(string, string, string, v1.Toleration) error
+	TolerationUnset(string, string, []string) error
 	UsersList(results int) error
 	WhitelistAdd(string, string) error
 	WhitelistList(string) error
